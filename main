@@ -1,0 +1,14 @@
+import pygame
+import os
+
+pygame.init()
+
+window_width = 2000
+window_height = 1000
+Window = pygame.display.set_mode((window_width, window_height))
+
+hermie = pygame.image.load("Hermie_Crawling.png")
+
+while True:
+    Window.blit(hermie, (0,0))
+    pygame.display.update()
