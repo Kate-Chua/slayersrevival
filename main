@@ -5,11 +5,49 @@ pygame.init()
 
 window = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0])
 screen = pygame.display.get_window_size()
+clock = pygame.time.Clock()
 
 original_hermie = pygame.image.load("Hermie_Crawling.png")
 resized_hermie = (200, 200)
 hermie_crawling1 = pygame.transform.scale(original_hermie, resized_hermie)
+hermie_crawling2 = pygame.transform.scale(pygame.image.load("Hermie_Crawling2.png"), (200,200))
+walking_frame = 1
+jumping_frame = 0
+
+#if jumping frame = 0, you're not currently jumping
+def jump(current_y,jumping_frame):
+    if jumping_frame == 0:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP] == 1:
+            return current_y, jumping_frame + 1
+        else:
+            return current_y, jumping_frame
+    elif jumping_frame >= 6:
+
+        return current_y + (3 * jumping_frame), jumping_frame + 1
+
+    else:
+        current_y = current_y - (3 * jumping_frame)
+        return current_y, jumping_frame + 1
+
+current_y = screen[1] * 3 / 8
+current_x = screen[0]*6.5/14.5
 
 while True:
-    window.blit(hermie_crawling1, (screen[0]*5/12 + 50, screen[1]*3/8))
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
+    window.fill("white")
+    if jumping_frame == 12:
+        jumping_frame = 0
+    current_y, jumping_frame = jump(current_y, jumping_frame)
+    if walking_frame <= 7:
+      window.blit(hermie_crawling1, (current_x, current_y))
+      walking_frame += 1
+    elif walking_frame > 7 and walking_frame <= 14:
+        window.blit(hermie_crawling2, (current_x,current_y))
+        walking_frame += 1
+    if walking_frame == 14:
+        walking_frame = 0
     pygame.display.update()
