@@ -22,16 +22,14 @@ def jump(current_y,jumping_frame):
             return current_y, jumping_frame + 1
         else:
             return current_y, jumping_frame
-    elif jumping_frame >= 6:
-
-        return current_y + (3 * jumping_frame), jumping_frame + 1
-
     else:
-        current_y = current_y - (3 * jumping_frame)
+        #Line below is the jump equation.
+        current_y = current_y - (25 - jumping_frame * 2)
         return current_y, jumping_frame + 1
 
 current_y = screen[1] * 3 / 8
 current_x = screen[0]*6.5/14.5
+print(current_y)
 
 while True:
     clock.tick(60)
@@ -39,7 +37,8 @@ while True:
         if event.type == pygame.QUIT:
             exit()
     window.fill("white")
-    if jumping_frame == 12:
+    if jumping_frame == 25:
+        print(current_y)
         jumping_frame = 0
     current_y, jumping_frame = jump(current_y, jumping_frame)
     if walking_frame <= 7:
