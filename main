@@ -2,10 +2,14 @@ import pygame
 
 pygame.init()
 
-
+#Screen size of device it is coded on: 1920x1080
 window = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0])
 screen = pygame.display.get_window_size()
 clock = pygame.time.Clock()
+
+background = pygame.image.load("background.jpg")
+background_scaled = pygame.transform.scale(background, (1280*1.5, 720*1.5))
+background_sand = pygame.transform.scale(background, (1280*4.5, 720*4.5))
 
 original_hermie = pygame.image.load("Hermie_Crawling.png")
 resized_hermie = (200, 200)
@@ -36,13 +40,23 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
-    window.fill("white")
+    #Optional cropping parameter meaning: Where to crop from the image x. Where to crop from the image y. How long the crop is. How tall the crop.)
+    #The five blits below are the water and the shore of the sand
+    window.blit(background_scaled, (0, 250), (960, 470, 390, 325))
+    window.blit(background_scaled, (390, 250), (960, 470, 390, 325))
+    window.blit(background_scaled, (780, 250), (960, 470, 390, 325))
+    window.blit(background_scaled, (1170, 250), (960, 470, 390, 325))
+    window.blit(background_scaled, (1560, 250), (960, 470, 390, 325))
+
+    window.blit(background_sand, (0, 550), (0, 2850, 1920, 900))
+    window.blit(background_sand, (0, 700), (0, 2850, 1920, 900))
+
     if jumping_frame == 25:
         print(current_y)
         jumping_frame = 0
     current_y, jumping_frame = jump(current_y, jumping_frame)
     if walking_frame <= 7:
-      window.blit(hermie_crawling1, (current_x, current_y))
+      window.blit(hermie_crawling1, (current_x, (current_y))
       walking_frame += 1
     elif walking_frame > 7 and walking_frame <= 14:
         window.blit(hermie_crawling2, (current_x,current_y))
