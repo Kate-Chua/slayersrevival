@@ -7,9 +7,10 @@ window = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0])
 screen = pygame.display.get_window_size()
 clock = pygame.time.Clock()
 
-background = pygame.image.load("background.jpg")
-background_scaled = pygame.transform.scale(background, (1280*1.5, 720*1.5))
-background_sand = pygame.transform.scale(background, (1280*4.5, 720*4.5))
+background = pygame.image.load("background.png")
+#background_scaled = pygame.transform.scale(background, (1280*1.5, 720*1.5))
+#background_sand = pygame.transform.scale(background, (1280*4.5, 720*4.5))
+current_slice = 0
 
 original_hermie = pygame.image.load("Hermie_Crawling.png")
 resized_hermie = (200, 200)
@@ -28,20 +29,27 @@ def jump(current_y,jumping_frame):
             return current_y, jumping_frame
     else:
         #Line below is the jump equation.
-        current_y = current_y - (25 - jumping_frame * 2)
+        current_y = current_y - (35 - jumping_frame * 2)
         return current_y, jumping_frame + 1
 
-current_y = screen[1] * 3 / 8
+running = True
+
+current_y = screen[1] * 4 / 9
 current_x = screen[0]*6.5/14.5
 print(current_y)
 
-while True:
+while running:
     clock.tick(60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            running = False
             exit()
+
+    window.blit(background, (0, 0))
     #Optional cropping parameter meaning: Where to crop from the image x. Where to crop from the image y. How long the crop is. How tall the crop.)
     #The five blits below are the water and the shore of the sand
+    """
+    window.blit(background_scaled, (0, 0), (0, 0, 2040, 390))
     window.blit(background_scaled, (0, 250), (960, 470, 390, 325))
     window.blit(background_scaled, (390, 250), (960, 470, 390, 325))
     window.blit(background_scaled, (780, 250), (960, 470, 390, 325))
@@ -50,13 +58,14 @@ while True:
 
     window.blit(background_sand, (0, 550), (0, 2850, 1920, 900))
     window.blit(background_sand, (0, 700), (0, 2850, 1920, 900))
-
-    if jumping_frame == 25:
+    """
+  # poopoo dont delete this
+    if jumping_frame == 35:
         print(current_y)
         jumping_frame = 0
     current_y, jumping_frame = jump(current_y, jumping_frame)
     if walking_frame <= 7:
-      window.blit(hermie_crawling1, (current_x, (current_y))
+      window.blit(hermie_crawling1, (current_x, current_y))
       walking_frame += 1
     elif walking_frame > 7 and walking_frame <= 14:
         window.blit(hermie_crawling2, (current_x,current_y))
