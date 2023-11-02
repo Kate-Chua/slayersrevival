@@ -1,5 +1,5 @@
 import pygame
-
+import math
 pygame.init()
 
 #Screen size of device it is coded on: 1920x1080
@@ -7,12 +7,12 @@ window = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0])
 screen = pygame.display.get_window_size()
 clock = pygame.time.Clock()
 
-background = pygame.image.load("background.png")
+background = pygame.image.load("background.png").convert_alpha()
 #background_scaled = pygame.transform.scale(background, (1280*1.5, 720*1.5))
 #background_sand = pygame.transform.scale(background, (1280*4.5, 720*4.5))
 current_slice = 0
 
-original_hermie = pygame.image.load("Hermie_Crawling.png")
+original_hermie = pygame.image.load("Hermie_Crawling.png").convert_alpha()
 resized_hermie = (200, 200)
 hermie_crawling1 = pygame.transform.scale(original_hermie, resized_hermie)
 hermie_crawling2 = pygame.transform.scale(pygame.image.load("Hermie_Crawling2.png"), (200,200))
@@ -38,14 +38,23 @@ current_y = screen[1] * 4 / 9
 current_x = screen[0]*6.5/14.5
 print(current_y)
 
+scroll = 0
+tile = math.ceil(screen[0] / background.get_width()) + 1
+
 while running:
-    clock.tick(60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             exit()
 
-    window.blit(background, (0, 0))
+    clock.tick(60)
+    i = 0
+    scroll -= 6
+    while(i < tile):
+        window.blit(background, (background.get_width()*i + scroll, 0))
+        i += 1
+    if abs(scroll) > background.get_width():
+        scroll = 0
     #Optional cropping parameter meaning: Where to crop from the image x. Where to crop from the image y. How long the crop is. How tall the crop.)
     #The five blits below are the water and the shore of the sand
     """
@@ -59,7 +68,6 @@ while running:
     window.blit(background_sand, (0, 550), (0, 2850, 1920, 900))
     window.blit(background_sand, (0, 700), (0, 2850, 1920, 900))
     """
-  # poopoo dont delete this
     if jumping_frame == 35:
         print(current_y)
         jumping_frame = 0
