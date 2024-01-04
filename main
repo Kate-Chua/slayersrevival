@@ -16,8 +16,14 @@ original_hermie = pygame.image.load("Hermie_Crawling.png").convert_alpha()
 resized_hermie = (200, 200)
 hermie_crawling1 = pygame.transform.scale(original_hermie, resized_hermie)
 hermie_crawling2 = pygame.transform.scale(pygame.image.load("Hermie_Crawling2.png"), (200,200))
+hermie_boss1 = pygame.transform.scale(original_hermie, (1000,1000))
+hermie_boss2 = pygame.transform.scale(pygame.image.load("Hermie_Crawling2.png"), (1000,1000))
 walking_frame = 1
 jumping_frame = 0
+
+
+alcohol = pygame.image.load("alcohol.png").convert_alpha()
+alcohol = pygame.transform.scale(alcohol, (20, 70))
 
 #if jumping frame = 0, you're not currently jumping
 def jump(current_y,jumping_frame):
@@ -52,6 +58,7 @@ while running:
     scroll -= 6
     while(i < tile):
         window.blit(background, (background.get_width()*i + scroll, 0))
+        window.blit(alcohol, (background.get_width()*i + scroll, 570))
         i += 1
     if abs(scroll) > background.get_width():
         scroll = 0
@@ -74,9 +81,11 @@ while running:
     current_y, jumping_frame = jump(current_y, jumping_frame)
     if walking_frame <= 7:
       window.blit(hermie_crawling1, (current_x, current_y))
+      window.blit(hermie_boss1, (0, -370))
       walking_frame += 1
     elif walking_frame > 7 and walking_frame <= 14:
         window.blit(hermie_crawling2, (current_x,current_y))
+        window.blit(hermie_boss2, (0, -370))
         walking_frame += 1
     if walking_frame == 14:
         walking_frame = 0
