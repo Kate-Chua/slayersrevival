@@ -42,7 +42,6 @@ running = True
 
 current_y = screen[1] * 4 / 9
 current_x = screen[0]*6.5/14.5
-print(current_y)
 
 scroll = 0
 tile = math.ceil(screen[0] / background.get_width()) + 1
@@ -59,7 +58,13 @@ while running:
     while(i < tile):
         window.blit(background, (background.get_width()*i + scroll, 0))
         window.blit(alcohol, (background.get_width()*i + scroll, 570))
+        alcoholhitbox = alcohol.get_rect()
+        alcoholhitbox.center = (background.get_width() * i + scroll + 10, 605)
         i += 1
+        hermie_crawling1
+        hermie_crawling2
+    #if
+       # print("IT WORKS")
     if abs(scroll) > background.get_width():
         scroll = 0
     #Optional cropping parameter meaning: Where to crop from the image x. Where to crop from the image y. How long the crop is. How tall the crop.)
@@ -76,14 +81,18 @@ while running:
     window.blit(background_sand, (0, 700), (0, 2850, 1920, 900))
     """
     if jumping_frame == 35:
-        print(current_y)
         jumping_frame = 0
     current_y, jumping_frame = jump(current_y, jumping_frame)
+
     if walking_frame <= 7:
+      hermie_crawling1hitbox = pygame.Rect(910, current_y, 110, 70)
       window.blit(hermie_crawling1, (current_x, current_y))
+      pygame.draw.rect(window, "black", hermie_crawling1hitbox)
       window.blit(hermie_boss1, (0, -370))
       walking_frame += 1
     elif walking_frame > 7 and walking_frame <= 14:
+        hermie_crawling2hitbox = pygame.Rect(910, current_y, 110, 70)
+        pygame.draw.rect(window, "black", hermie_crawling2hitbox)
         window.blit(hermie_crawling2, (current_x,current_y))
         window.blit(hermie_boss2, (0, -370))
         walking_frame += 1
