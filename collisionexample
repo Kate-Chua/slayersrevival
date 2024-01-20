@@ -1,0 +1,48 @@
+import pygame
+from time import sleep
+
+WINDOW_WIDTH = 640
+WINDOW_HEIGHT = 480
+
+window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+
+main_w = 50
+main_h = 50
+main_rect = pygame.Surface((main_w,main_h))
+main_rect.fill("white")
+main_x = 100
+main_y = 100
+
+other_w = 50
+other_h = 50
+other_rect = pygame.Surface((other_w, other_h))
+other_rect.fill("blue")
+other_x = 200
+other_y = 100
+
+def collision(x1, y1, w1, h1, x2, y2, w2, h2):
+    if x1 + w1 < x2 or x2 + w2 < x1:
+        return False
+    elif y1 + h1 < y2 or y2 + h2 < y1:
+        return False
+    else:
+        return True
+
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            quit()
+    if collision(main_x, main_y, main_w, main_h, other_x, other_y, other_h, other_w):
+        print("Collision")
+    mouse_position = pygame.mouse.get_pos()
+    main_x = mouse_position[0]
+    main_y = mouse_position[1]
+
+
+    window.fill(0)
+
+    window.blit(main_rect, (main_x, main_y))
+    window.blit(other_rect, (other_x, other_y))
+
+    pygame.display.update()
+    sleep(10/1000)
